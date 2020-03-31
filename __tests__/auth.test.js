@@ -21,5 +21,23 @@ describe('auth routes', () => {
         });
       });
   });
+  //Log in known user from our seed.js
+  it('logs in a user', async() => {
+    return request(app)
+      .post('/api/v1/auth/login')
+      .send({
+        username: 'test@test.com',
+        password: 'password',
+        profilePhotoUrl: 'cat.jpeg'
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: expect.any(String),
+          username: 'test@test.com',
+          __v: 0
+        });
+      });
+  });
+
 });
 

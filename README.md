@@ -35,7 +35,7 @@ Comments have:
 
 Create authentication routes
 
-* `POST /auth/signup`
+[x] `POST /auth/signup`
   * creates a new user
   * responds with the created user
 * `POST /auth/signin`
