@@ -1,11 +1,12 @@
-const { getAgent, getUser, getGrams } = require('../db/data-helper');
+const { getAgent, getUser, getGrams, getComments } = require('../db/data-helper');
 const request = require('supertest');
 const app = require('../lib/app');
-console.log('==========', getGrams);
+
 describe('grams routes', () => {
+
   it('creates a gram', async() => {
     const user = await getUser({ username: 'test@test.com' });
-    console.log('=====00======', user);
+    
     return getAgent()
       .post('/api/v1/grams')
       .send({
@@ -27,6 +28,7 @@ describe('grams routes', () => {
 
   it('gets all grams', async() => {
     const grams = await getGrams();
+    
     return request(app)
       .get('/api/v1/grams')
       .then(res => {
@@ -34,8 +36,20 @@ describe('grams routes', () => {
       });
   });
 
-
-
-
+  it('gets a gram by id', async() => {
+    const user = await getUser({ username: 'test@test.com' });
+    const gram = await getGrams({ user: user._id });
+    const comments = await getComments({ gram: gram._id });
+    
+    return getAgent()
+      .get(`/api/v1/grams/${gram._id}`)
+      .then(res => {
+        expect(res.body).toEqual({
+          ...gram,
+          author: user._id,
+          comment: expect.arrayContaining(comments)
+        });
+      });
+  });
 });
 
