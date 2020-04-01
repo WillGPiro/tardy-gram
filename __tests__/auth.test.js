@@ -40,7 +40,17 @@ describe('auth routes', () => {
       });
   });
 
-
-
+  it('verifies a logged in user', () => {
+    return getAgent()
+      .get('/api/v1/auth/verify')
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: expect.any(String),
+          username: 'test@test.com',
+          profilePhotoUrl: 'cat.jpeg',
+          __v: 0
+        });
+      });
+  });
 });
 
