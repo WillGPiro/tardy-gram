@@ -1,20 +1,29 @@
 const chance = require('chance').Chance();
 const User = require('../lib/models/User');
+const Gram = require('../lib/models/Gram');
 
 
 //Create a single known user with known info. 
-module.exports = async({ usersToCreate = 5 } = {}) => {
-  await User.create({
+module.exports = async({ usersToCreate = 5, gramsToCreate = 50 } = {}) => {
+  const loggedInUser =  await User.create({
     username: 'test@test.com',
     password: 'password',
     profilePhotoUrl: 'cat.jpeg'
   });
 
   //Make one less random user. 
-  await User.create([...Array(usersToCreate)].slice(1).map(() => ({
+  
+  const users =  await User.create([...Array(usersToCreate)].slice(1).map(() => ({
     username: chance.email(),
     password: chance.animal(),
     profilePhotoUrl: chance.name()
+  })));
+
+  await Gram.create([...Array(gramsToCreate)].map(() => ({
+    user: chance.weighted([loggedInUser, ...users], [2, ...users.map(() => 1)])._id,
+    photoURL: 'http://placekitten.com/200/300',
+    caption: 'Just adorable',
+    tags: ['#catlyfe, #killwithcute']
   })));
 };
 

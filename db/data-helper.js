@@ -20,10 +20,6 @@ beforeEach(() => {
   return seed();
 });
 
-afterAll(() => {
-  return mongoose.connection.close();
-});
-
 const agent = request.agent(app);
 beforeEach(() => {
   return agent
