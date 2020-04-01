@@ -38,9 +38,9 @@ Create authentication routes
 [x] `POST /auth/signup`
   * creates a new user
   * responds with the created user
-* `POST /auth/signin`
+[x] `POST /auth/signin`
   * responds with a user
-* `GET /auth/verify`
+[x] `GET /auth/verify`
   * uses the `ensureAuth` middleware
   * responds with a user
 

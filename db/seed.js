@@ -1,6 +1,7 @@
 const chance = require('chance').Chance();
 const User = require('../lib/models/User');
 
+
 //Create a single known user with known info. 
 module.exports = async({ usersToCreate = 5 } = {}) => {
   await User.create({
