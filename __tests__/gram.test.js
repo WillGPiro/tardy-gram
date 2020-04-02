@@ -59,7 +59,8 @@ describe('grams routes', () => {
     const gram = await getGram({ author: user._id });
     
     return getAgent()
-      .delete(`/api/v1/grams/${gram._id}`)
+      .patch(`/api/v1/grams/${gram._id}`)
+      .send({ caption: 'I should have never said that #sorry' })
       .then(res => {
         expect(res.body).toEqual({
           ...gram,

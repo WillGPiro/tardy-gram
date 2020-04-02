@@ -22,9 +22,9 @@ module.exports = async({ usersToCreate = 5, gramsToCreate = 50, commentsToCreate
 
   const grams = await Gram.create([...Array(gramsToCreate)].map(() => ({
     user: chance.weighted([loggedInUser, ...users], [2, ...users.map(() => 1)])._id,
-    photoURL: chance.sentence,
-    caption: chance.url,
-    tags: [chance.name],
+    photoURL: 'http://placekitten.com/200/300',
+    caption: 'Just adorable',
+    tags: ['#catlyfe, #killwithcute'],
     author: chance.weighted([loggedInUser, ...users], [2, ...users.map(() => 1)])._id,
   })));
 
