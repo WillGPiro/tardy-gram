@@ -1,4 +1,4 @@
-const { getAgent, getUser, getGram } = require('../db/data-helper');
+const { getAgent, getUser, getGram, getComment } = require('../db/data-helper');
 
 describe('comment routes', () => {
 
@@ -22,5 +22,13 @@ describe('comment routes', () => {
       });
   });
 
+  it('deletes a gram', async() => {
+    const comment = await getComment();
+    return getAgent()
+      .delete(`/api/v1/comments/${comment._id}`)
+      .then(res => {
+        expect(res.body).toEqual(comment);
+      });
+  });
 });
 
