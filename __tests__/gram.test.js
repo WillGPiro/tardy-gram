@@ -78,5 +78,25 @@ describe('grams routes', () => {
         expect(res.body).toEqual(gram);
       });
   });
+
+  it('gets top 10 grams with most comments', async() => {
+    return request(app)
+      .get('/api/v1/grams/top10')
+      .then(res => {
+        expect(res.body.length).toEqual(10);
+        expect(res.body).toEqual([
+          { _id: expect.any(String), numComments: expect.any(Number) },
+          { _id: expect.any(String), numComments: expect.any(Number) },
+          { _id: expect.any(String), numComments: expect.any(Number) },
+          { _id: expect.any(String), numComments: expect.any(Number) },
+          { _id: expect.any(String), numComments: expect.any(Number) },
+          { _id: expect.any(String), numComments: expect.any(Number) },
+          { _id: expect.any(String), numComments: expect.any(Number) },
+          { _id: expect.any(String), numComments: expect.any(Number) },
+          { _id: expect.any(String), numComments: expect.any(Number) },
+          { _id: expect.any(String), numComments: expect.any(Number) },
+        ]);
+      });
+  });
 });
 
