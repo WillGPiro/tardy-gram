@@ -1,4 +1,4 @@
-const { getAgent, getUser, getGrams, getComments } = require('../db/data-helper');
+const { getAgent, getUser, getGrams, getGram, getComments } = require('../db/data-helper');
 const request = require('supertest');
 const app = require('../lib/app');
 
@@ -12,7 +12,8 @@ describe('grams routes', () => {
       .send({
         photoURL: 'http://placekitten.com/200/300',
         caption: 'Just adorable',
-        tags: ['#catlyfe, #killwithcute']
+        tags: ['#catlyfe, #killwithcute'],
+        author: user._id
       })
       .then(res => {
         expect(res.body).toEqual({
@@ -21,6 +22,7 @@ describe('grams routes', () => {
           photoURL: 'http://placekitten.com/200/300',
           caption: 'Just adorable',
           tags: ['#catlyfe, #killwithcute'],
+          author: expect.any(String),
           __v: 0
         });
       });
@@ -38,7 +40,7 @@ describe('grams routes', () => {
 
   it('gets a gram by id', async() => {
     const user = await getUser({ username: 'test@test.com' });
-    const gram = await getGrams({ user: user._id });
+    const gram = await getGram({ author: user._id });
     const comments = await getComments({ gram: gram._id });
     
     return getAgent()
@@ -47,7 +49,7 @@ describe('grams routes', () => {
         expect(res.body).toEqual({
           ...gram,
           author: user._id,
-          comment: expect.arrayContaining(comments)
+          comments: expect.arrayContaining(comments)
         });
       });
   });
